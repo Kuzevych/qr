@@ -106,7 +106,7 @@ export function styles() {
       }
     },
     downloadBtnPng: {
-      marginRight: 8,
+      marginRight: 12,
     },
     downloadBtnLabel: {
       fontSize: 12
