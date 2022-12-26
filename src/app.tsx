@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Card, Collapse, Typography } from '@material-ui/core';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import cx from 'classnames';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 import { withStyles, WithStyles } from '@core/theme/utils/with-styles';
 import { defaultColors } from '@core/theme/constants/colors';
@@ -14,7 +15,7 @@ import { Flex } from '@shared/components/flex';
 import { Checkbox } from '@shared/components/checkbox';
 import { Select } from '@shared/components/select';
 import { colorTypeOptions, gradientTypeOptions } from '@shared/constants/options';
-import { getBase64FromFile } from '@shared/utils/file';
+import { downloadFile, getBase64FromFile } from "@shared/utils/file";
 import { initialQRCode } from '@shared/images/bl.in';
 import { Loading } from '@shared/components/loading';
 import { ShapeForm } from '@shared/components/shape-form';
@@ -64,6 +65,8 @@ const App: React.FC<AppProps> = ({ classes }) => {
   //Eye Ball Shape
   const [eyeBall, setEyeBall] = React.useState(EyeBallShapeType.Ball0);
 
+  const [downloadingFile, setDownloadingFile] = React.useState(false);
+
   React.useEffect(() => {
     if (initialRef.current) {
       initialRef.current = false;
@@ -72,11 +75,11 @@ const App: React.FC<AppProps> = ({ classes }) => {
     }
 
     if (url) {
-      getQrCode();
+      getQrCode(false);
     }
-  }, [colors.bgColor, colors.eye1Color, colors.eyeBall1Color, gradientType, body, eye, eyeBall, url]);
+  }, [colors.bgColor, colors.eye1Color, colors.eyeBall1Color, colorRadio, colors.gradientColor1, colors.gradientColor2, gradientType, body, eye, eyeBall, url, customEyeColor]);
 
-  const getQrCode = async () => {
+  const getQrCode = async (download: boolean, format?: 'png' | 'svg') => {
     if (!url || url == 'https://') {
       setUrlError(true);
       urlFieldRef.current?.scroll({ top: 0, behavior: 'smooth' });
@@ -84,16 +87,26 @@ const App: React.FC<AppProps> = ({ classes }) => {
       return;
     }
 
-    setLoading(true);
+    download ? setDownloadingFile(true) : setLoading(true);
+
+    const colorsConfig = colorRadio == 'single' ? {
+      bodyColor: colors.bodyColor,
+      gradientColor1 : null,
+      gradientColor2 : null
+    } : {
+      bodyColor: colors.bodyColor,
+      gradientColor1 : colors.gradientColor1,
+      gradientColor2 : colors.gradientColor2
+    }
 
     try {
       const { data } = await $http.post(
         `/qr/custom`,
         {
           data: url,
-          size: 300,
-          file: 'png',
-          download: false,
+          size: 10,
+          file: format,
+          download: download,
           config: {
             body: body,
             eye: eye,
@@ -106,49 +119,31 @@ const App: React.FC<AppProps> = ({ classes }) => {
             eyeBall1Color: colors.eyeBall1Color,
             eyeBall2Color: colors.eyeBall2Color,
             eyeBall3Color: colors.eyeBall3Color,
+            gradientOnEyes: customEyeColor,
+            ...colorsConfig
           },
-
-          // data: 'https://www.bl.ink/',
-          // download: false,
-          // file: 'svg',
-          // size: 200,
-          // config: {
-          //   bgColor: '#FFFFFF',
-          //   body: 'square',
-          //   bodyColor: '#A521C7',
-          //   brf1: [],
-          //   brf2: [],
-          //   brf3: [],
-          //   erf1: [],
-          //   erf2: [],
-          //   erf3: [],
-          //   eye: 'frame0',
-          //   eye1Color: '#A521C7',
-          //   eye2Color: '#A521C7',
-          //   eye3Color: '#A521C7',
-          //   eyeBall: 'ball0',
-          //   eyeBall1Color: '#A521C7',
-          //   eyeBall2Color: '#A521C7',
-          //   eyeBall3Color: '#A521C7',
-          //   gradientColor1: '',
-          //   gradientColor2: '',
-          //   gradientOnEyes: 'true',
-          //   gradientType: 'linear',
-          //   logo: '',
-          //   logoMode: 'default',
-          // },
         },
         {
-          responseType: 'blob',
+          responseType: 'blob'
         }
+        // download ? {} : {responseType: 'blob'}
       );
 
-      const image = await getBase64FromFile(data);
+      if (download) {
+        console.log(data);
+        const image = await getBase64FromFile(data?.data);
 
-      setQr(image);
-      setLoading(false);
+        downloadFile(image, `qr-code`);
+        downloadFile(`data:image/png;base64,${data?.data}`, `qr-code`);
+        setDownloadingFile(false);
+      } else {
+        const image = await getBase64FromFile(data);
+
+        setQr(image);
+        setLoading(false);
+      }
     } catch (e) {
-      setLoading(false);
+      download ? setDownloadingFile(false) : setLoading(false);
     }
   };
 
@@ -260,6 +255,10 @@ const App: React.FC<AppProps> = ({ classes }) => {
       });
     }
   };
+
+  const handleDownloadFile = (format: 'png' | 'svg') => () => {
+    getQrCode(true, format);
+  }
 
   return (
     <Typography component="div" className={classes.root}>
@@ -375,6 +374,28 @@ const App: React.FC<AppProps> = ({ classes }) => {
             <img src={qr || initialQRCode} alt="" className={classes.qrCodeImage} />
             {loading && <Loading absolute />}
           </div>
+          <Flex direction='row' wrap='nowrap' justifyContent='space-between'>
+            <Button
+              disabled={downloadingFile}
+              startIcon={<GetAppIcon />}
+              variant='contained'
+              color='primary'
+              classes={{ root: classes.downloadBtn, label: classes.downloadBtnLabel }}
+              onClick={handleDownloadFile('png')}
+            >
+              Download PNG
+            </Button>
+            <Button
+              disabled={downloadingFile}
+              startIcon={<GetAppIcon />}
+              variant='contained'
+              color='primary'
+              classes={{ root: classes.downloadBtn, label: classes.downloadBtnLabel }}
+              onClick={handleDownloadFile('svg')}
+            >
+              Download SVG
+            </Button>
+          </Flex>
         </div>
       </Card>
     </Typography>

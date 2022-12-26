@@ -13,7 +13,7 @@ export const styles = () => createStyles({
     padding: 6
   },
   rootChecked: {
-    borderColor: colors.green
+    borderColor: colors.primary.green,
   },
   body: {
     width: 90,

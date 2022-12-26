@@ -1,5 +1,6 @@
 import { colors } from '@core/theme/constants/colors';
 import { createStyles } from '@core/theme/utils/create-styles';
+import { alpha } from "@core/theme/utils/alpha";
 
 export function styles() {
   return createStyles({
@@ -48,7 +49,7 @@ export function styles() {
     },
     heading: {
       fontSize: 28,
-      color: '#2a354f',
+      color: colors.primary.main,
       fontWeight: 500,
       marginBottom: 32,
     },
@@ -93,5 +94,16 @@ export function styles() {
       borderRadius: 0,
       marginTop: 10,
     },
+    downloadBtn: {
+      width: 125,
+      backgroundColor: colors.primary.green,
+
+      '&:hover': {
+        backgroundColor: alpha(colors.primary.green, .7)
+      }
+    },
+    downloadBtnLabel: {
+      fontSize: 12
+    }
   });
 }
