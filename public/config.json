@@ -1,0 +1,8 @@
+{
+  "apiURL": {
+    "origin": "",
+    "prefix": "/api"
+  },
+  "mapsApiKey": "",
+  "version": "0.2.0"
+}
