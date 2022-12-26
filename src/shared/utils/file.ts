@@ -1,6 +1,6 @@
 import uniq from 'lodash/uniq';
 
-export const downloadFile = (part: BlobPart, filename: string, type = 'application/png') => {
+export const downloadFile = (part: BlobPart, filename: string, type = 'image/png') => {
   const file = new Blob([part], { type });
 
   let url = window.URL.createObjectURL(file);

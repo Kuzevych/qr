@@ -96,6 +96,7 @@ export function styles() {
     },
     downloadBtn: {
       width: 125,
+      marginTop: 10,
       backgroundColor: colors.primary.green,
 
       '&:hover': {

@@ -77,7 +77,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
     if (url) {
       getQrCode(false);
     }
-  }, [colors.bgColor, colors.eye1Color, colors.eyeBall1Color, colorRadio, colors.gradientColor1, colors.gradientColor2, gradientType, body, eye, eyeBall, url, customEyeColor]);
+  }, [colors.bgColor, colors.bodyColor, colors.eye1Color, colors.eyeBall1Color, colorRadio, colors.gradientColor1, colors.gradientColor2, gradientType, body, eye, eyeBall, url, customEyeColor]);
 
   const getQrCode = async (download: boolean, format?: 'png' | 'svg') => {
     if (!url || url == 'https://') {
@@ -123,18 +123,17 @@ const App: React.FC<AppProps> = ({ classes }) => {
             ...colorsConfig
           },
         },
-        {
-          responseType: 'blob'
-        }
-        // download ? {} : {responseType: 'blob'}
+        download ? {} : {responseType: 'blob'}
       );
 
       if (download) {
         console.log(data);
-        const image = await getBase64FromFile(data?.data);
+        console.log(data?.data);
+        // const image = await getBase64FromFile(data);
 
-        downloadFile(image, `qr-code`);
-        downloadFile(`data:image/png;base64,${data?.data}`, `qr-code`);
+        // downloadFile(image, `qr-code`);
+        await downloadFile(data?.data, `qr-code`);
+        // downloadFile(`data:image/png;base64,${data}`, `qr-code`);
         setDownloadingFile(false);
       } else {
         const image = await getBase64FromFile(data);
@@ -229,14 +228,16 @@ const App: React.FC<AppProps> = ({ classes }) => {
   };
 
   const handleSwapEyeColor = () => {
+    let eye = colors.eye1Color;
+    let balEte = colors.eyeBall1Color;
     setColors({
       ...colors,
-      eye1Color: colors.eyeBall1Color,
-      eye2Color: colors.eyeBall2Color,
-      eye3Color: colors.eyeBall3Color,
-      eyeBall1Color: colors.eye1Color,
-      eyeBall2Color: colors.eye2Color,
-      eyeBall3Color: colors.eye3Color,
+      eye1Color: balEte,
+      eye2Color: balEte,
+      eye3Color: balEte,
+      eyeBall1Color: eye,
+      eyeBall2Color: eye,
+      eyeBall3Color: eye,
     });
   };
 
@@ -374,7 +375,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
             <img src={qr || initialQRCode} alt="" className={classes.qrCodeImage} />
             {loading && <Loading absolute />}
           </div>
-          <Flex direction='row' wrap='nowrap' justifyContent='space-between'>
+          <Flex direction='row' justifyContent='space-between' >
             <Button
               disabled={downloadingFile}
               startIcon={<GetAppIcon />}
