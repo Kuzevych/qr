@@ -375,13 +375,13 @@ const App: React.FC<AppProps> = ({ classes }) => {
             <img src={qr || initialQRCode} alt="" className={classes.qrCodeImage} />
             {loading && <Loading absolute />}
           </div>
-          <Flex direction='row' justifyContent='space-between' >
+          <Flex direction='row' wrap='nowrap' justifyContent='space-between' >
             <Button
               disabled={downloadingFile}
               startIcon={<GetAppIcon />}
               variant='contained'
               color='primary'
-              classes={{ root: classes.downloadBtn, label: classes.downloadBtnLabel }}
+              classes={{ root: cx(classes.downloadBtn, classes.downloadBtnPng), label: classes.downloadBtnLabel }}
               onClick={handleDownloadFile('png')}
             >
               Download PNG

@@ -95,13 +95,18 @@ export function styles() {
       marginTop: 10,
     },
     downloadBtn: {
-      width: 125,
+      height: 52,
+      flex: '1 1 auto',
       marginTop: 10,
+      borderRadius: 4,
       backgroundColor: colors.primary.green,
 
       '&:hover': {
         backgroundColor: alpha(colors.primary.green, .7)
       }
+    },
+    downloadBtnPng: {
+      marginRight: 8,
     },
     downloadBtnLabel: {
       fontSize: 12
