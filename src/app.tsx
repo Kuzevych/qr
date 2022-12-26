@@ -74,7 +74,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
     if (url) {
       getQrCode();
     }
-  }, [colors.bgColor, body, eye, eyeBall, url]);
+  }, [colors.bgColor, colors.eye1Color, colors.eyeBall1Color, gradientType, body, eye, eyeBall, url]);
 
   const getQrCode = async () => {
     if (!url || url == 'https://') {
@@ -100,6 +100,12 @@ const App: React.FC<AppProps> = ({ classes }) => {
             eyeBall: eyeBall,
             bgColor: colors.bgColor,
             gradientType: gradientType,
+            eye1Color: colors.eye1Color,
+            eye2Color: colors.eye2Color,
+            eye3Color: colors.eye3Color,
+            eyeBall1Color: colors.eyeBall1Color,
+            eyeBall2Color: colors.eyeBall2Color,
+            eyeBall3Color: colors.eyeBall3Color,
           },
 
           // data: 'https://www.bl.ink/',
