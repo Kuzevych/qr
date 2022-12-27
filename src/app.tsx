@@ -22,6 +22,9 @@ import { ShapeForm } from '@shared/components/shape-form';
 import { BodyType } from '@shared/components/frames/body-shape';
 import { EyeFrameShapeType } from '@shared/components/frames/eye-frame-shape';
 import { EyeBallShapeType } from '@shared/components/frames/eye-ball-shape';
+import { LogoType } from '@shared/components/frames/logo';
+import { LogoCustomize } from '@shared/components/logo-customize';
+import { Slider } from '@shared/components/slider';
 
 import { styles } from './app.styles';
 
@@ -36,6 +39,8 @@ const App: React.FC<AppProps> = ({ classes }) => {
   const [url, setUrl] = React.useState('https://');
 
   const [qr, setQr] = React.useState<string>('');
+
+  const [size, setSize] = React.useState(10);
 
   const [loading, setLoading] = React.useState(false);
 
@@ -65,7 +70,11 @@ const App: React.FC<AppProps> = ({ classes }) => {
   //Eye Ball Shape
   const [eyeBall, setEyeBall] = React.useState(EyeBallShapeType.Ball0);
 
+  const [logo, setLogo] = React.useState<LogoType | string>('');
+
   const [downloadingFile, setDownloadingFile] = React.useState(false);
+
+  const [logoMode, setLogoMode] = React.useState<string>('default');
 
   React.useEffect(() => {
     if (initialRef.current) {
@@ -91,6 +100,9 @@ const App: React.FC<AppProps> = ({ classes }) => {
     eyeBall,
     url,
     customEyeColor,
+    logo,
+    logoMode,
+    size,
   ]);
 
   const getQrCode = async (download: boolean, format?: 'png' | 'svg') => {
@@ -121,7 +133,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
         `/qr/custom`,
         {
           data: url,
-          size: 10,
+          size: size,
           file: format,
           download: download,
           config: {
@@ -137,7 +149,8 @@ const App: React.FC<AppProps> = ({ classes }) => {
             eyeBall2Color: colors.eyeBall2Color,
             eyeBall3Color: colors.eyeBall3Color,
             gradientOnEyes: customEyeColor,
-            // logo: logo ? `#${logo}` : '',
+            logo: logo ? logo : '',
+            logoMode: logoMode,
             ...colorsConfig,
           },
         },
@@ -381,12 +394,16 @@ const App: React.FC<AppProps> = ({ classes }) => {
               onEyeBallChange={setEyeBall}
             />
           </Accordion>
+          <Accordion type={AccordionType.Logos} classes={{ root: classes.accordion }}>
+            <LogoCustomize logo={logo} onLogoChange={setLogo} logoMode={logoMode} onLogoModeChange={setLogoMode} />
+          </Accordion>
         </div>
         <div className={classes.codeSection}>
           <div className={classes.qrCode}>
             <img src={qr || initialQRCode} alt="" className={classes.qrCodeImage} />
             {loading && <Loading absolute />}
           </div>
+          <Slider value={size} onValueChange={setSize} />
           <Flex direction="row" wrap="nowrap" justifyContent="space-between">
             <Button
               disabled={downloadingFile}

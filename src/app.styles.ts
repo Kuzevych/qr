@@ -1,7 +1,7 @@
 import { colors } from '@core/theme/constants/colors';
 import { createStyles } from '@core/theme/utils/create-styles';
-
-export function styles() {
+import { Theme } from '@core/theme/types/main';
+export const styles = ({ breakpoints }: Theme) => {
   return createStyles({
     root: {
       height: '100%',
@@ -33,6 +33,7 @@ export function styles() {
     },
     codeSection: {
       width: '30%',
+      minWidth: 300,
       padding: 20,
       borderTopRightRadius: 4,
       borderBottomRightRadius: 4,
@@ -104,5 +105,18 @@ export function styles() {
     downloadBtnLabel: {
       fontSize: 12,
     },
+    [breakpoints.down('sm')]: {
+      root: {
+        padding: 15,
+      },
+      actionsSection: {
+        padding: 20,
+      },
+    },
+    [breakpoints.down('xs')]: {
+      card: {},
+      actionsSection: {},
+      codeSection: {},
+    },
   });
-}
+};

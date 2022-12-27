@@ -74,3 +74,11 @@ export const parseBytes = (bytes: number, decimals = 2): { amount: number; unit:
     unit: units[i] as string,
   };
 };
+
+export const createFormDataName = (file: File) => {
+  const formData = new FormData();
+
+  formData.append(file.name, file);
+
+  return formData;
+};
