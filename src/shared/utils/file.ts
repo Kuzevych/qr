@@ -10,6 +10,20 @@ export const downloadFile = (part: BlobPart, filename: string, type = 'image/png
   a.click();
 };
 
+export const downloadBase64 = (image: string, type: 'png' | 'svg') => {
+  let a = document.createElement('a');
+
+  if (type == 'png') {
+    a.href = `data:image/${type};base64,${image}`;
+  }
+
+  if (type == 'svg') {
+    a.href = `data:image/${type}+xml;base64,${image}`;
+  }
+  a.download = `qr-code.${type}`;
+  a.click();
+};
+
 export const getBase64FromFile = (file: File): Promise<string> => {
   const reader = new FileReader();
 

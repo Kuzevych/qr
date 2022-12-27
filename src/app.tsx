@@ -15,7 +15,7 @@ import { Flex } from '@shared/components/flex';
 import { Checkbox } from '@shared/components/checkbox';
 import { Select } from '@shared/components/select';
 import { colorTypeOptions, gradientTypeOptions } from '@shared/constants/options';
-import { downloadFile, getBase64FromFile } from '@shared/utils/file';
+import { downloadBase64, getBase64FromFile } from '@shared/utils/file';
 import { initialQRCode } from '@shared/images/bl.in';
 import { Loading } from '@shared/components/loading';
 import { ShapeForm } from '@shared/components/shape-form';
@@ -144,14 +144,8 @@ const App: React.FC<AppProps> = ({ classes }) => {
         download ? {} : { responseType: 'blob' }
       );
 
-      if (download) {
-        console.log(data);
-        console.log(data?.data);
-        // const image = await getBase64FromFile(data);
-
-        // downloadFile(image, `qr-code`);
-        await downloadFile(data?.data, `qr-code`);
-        // downloadFile(`data:image/png;base64,${data}`, `qr-code`);
+      if (download && format) {
+        await downloadBase64(data?.data as string, format);
         setDownloadingFile(false);
       } else {
         const image = await getBase64FromFile(data);
