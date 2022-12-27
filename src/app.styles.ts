@@ -1,6 +1,5 @@
 import { colors } from '@core/theme/constants/colors';
 import { createStyles } from '@core/theme/utils/create-styles';
-import { alpha } from "@core/theme/utils/alpha";
 
 export function styles() {
   return createStyles({
@@ -98,18 +97,12 @@ export function styles() {
       height: 52,
       flex: '1 1 auto',
       marginTop: 10,
-      borderRadius: 4,
-      backgroundColor: colors.primary.green,
-
-      '&:hover': {
-        backgroundColor: alpha(colors.primary.green, .7)
-      }
     },
     downloadBtnPng: {
       marginRight: 12,
     },
     downloadBtnLabel: {
-      fontSize: 12
-    }
+      fontSize: 12,
+    },
   });
 }

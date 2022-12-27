@@ -15,7 +15,7 @@ import { Flex } from '@shared/components/flex';
 import { Checkbox } from '@shared/components/checkbox';
 import { Select } from '@shared/components/select';
 import { colorTypeOptions, gradientTypeOptions } from '@shared/constants/options';
-import { downloadFile, getBase64FromFile } from "@shared/utils/file";
+import { downloadFile, getBase64FromFile } from '@shared/utils/file';
 import { initialQRCode } from '@shared/images/bl.in';
 import { Loading } from '@shared/components/loading';
 import { ShapeForm } from '@shared/components/shape-form';
@@ -77,7 +77,21 @@ const App: React.FC<AppProps> = ({ classes }) => {
     if (url) {
       getQrCode(false);
     }
-  }, [colors.bgColor, colors.bodyColor, colors.eye1Color, colors.eyeBall1Color, colorRadio, colors.gradientColor1, colors.gradientColor2, gradientType, body, eye, eyeBall, url, customEyeColor]);
+  }, [
+    colors.bgColor,
+    colors.bodyColor,
+    colors.eye1Color,
+    colors.eyeBall1Color,
+    colorRadio,
+    colors.gradientColor1,
+    colors.gradientColor2,
+    gradientType,
+    body,
+    eye,
+    eyeBall,
+    url,
+    customEyeColor,
+  ]);
 
   const getQrCode = async (download: boolean, format?: 'png' | 'svg') => {
     if (!url || url == 'https://') {
@@ -89,15 +103,18 @@ const App: React.FC<AppProps> = ({ classes }) => {
 
     download ? setDownloadingFile(true) : setLoading(true);
 
-    const colorsConfig = colorRadio == 'single' ? {
-      bodyColor: colors.bodyColor,
-      gradientColor1 : null,
-      gradientColor2 : null
-    } : {
-      bodyColor: colors.bodyColor,
-      gradientColor1 : colors.gradientColor1,
-      gradientColor2 : colors.gradientColor2
-    }
+    const colorsConfig =
+      colorRadio == 'single'
+        ? {
+            bodyColor: colors.bodyColor,
+            gradientColor1: null,
+            gradientColor2: null,
+          }
+        : {
+            bodyColor: colors.bodyColor,
+            gradientColor1: colors.gradientColor1,
+            gradientColor2: colors.gradientColor2,
+          };
 
     try {
       const { data } = await $http.post(
@@ -120,10 +137,11 @@ const App: React.FC<AppProps> = ({ classes }) => {
             eyeBall2Color: colors.eyeBall2Color,
             eyeBall3Color: colors.eyeBall3Color,
             gradientOnEyes: customEyeColor,
-            ...colorsConfig
+            // logo: logo ? `#${logo}` : '',
+            ...colorsConfig,
           },
         },
-        download ? {} : {responseType: 'blob'}
+        download ? {} : { responseType: 'blob' }
       );
 
       if (download) {
@@ -259,7 +277,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
 
   const handleDownloadFile = (format: 'png' | 'svg') => () => {
     getQrCode(true, format);
-  }
+  };
 
   return (
     <Typography component="div" className={classes.root}>
@@ -375,12 +393,12 @@ const App: React.FC<AppProps> = ({ classes }) => {
             <img src={qr || initialQRCode} alt="" className={classes.qrCodeImage} />
             {loading && <Loading absolute />}
           </div>
-          <Flex direction='row' wrap='nowrap' justifyContent='space-between' >
+          <Flex direction="row" wrap="nowrap" justifyContent="space-between">
             <Button
               disabled={downloadingFile}
               startIcon={<GetAppIcon />}
-              variant='contained'
-              color='primary'
+              variant="contained"
+              color="primary"
               classes={{ root: cx(classes.downloadBtn, classes.downloadBtnPng), label: classes.downloadBtnLabel }}
               onClick={handleDownloadFile('png')}
             >
@@ -389,8 +407,8 @@ const App: React.FC<AppProps> = ({ classes }) => {
             <Button
               disabled={downloadingFile}
               startIcon={<GetAppIcon />}
-              variant='contained'
-              color='primary'
+              variant="contained"
+              color="primary"
               classes={{ root: classes.downloadBtn, label: classes.downloadBtnLabel }}
               onClick={handleDownloadFile('svg')}
             >
