@@ -179,25 +179,23 @@ const App: React.FC<AppProps> = ({ classes }) => {
     s && setUrlError(false);
   };
   const handleChangeColor = (type: string) => (color: string) => {
-    if (type === 'eye1Color') {
-      setColors({
-        ...colors,
-        eye1Color: color,
-      });
-      return;
-    }
-
-    if (type === 'eyeBall1Color') {
-      setColors({
-        ...colors,
-        eyeBall1Color: color,
-      });
-      return;
-    }
-
     setColors({
       ...colors,
       [type]: color,
+    });
+  };
+
+  const handleChangeEye1Color = (color: string) => {
+    setColors({
+      ...colors,
+      eye1Color: color,
+    });
+  };
+
+  const handleChangeEyeBall1Color = (color: string) => {
+    setColors({
+      ...colors,
+      eyeBall1Color: color,
     });
   };
 
@@ -265,6 +263,8 @@ const App: React.FC<AppProps> = ({ classes }) => {
         eye1Color: bodyColor,
         eyeBall1Color: bodyColor,
       });
+
+      return;
     }
 
     if (colorRadio === 'gradient') {
@@ -371,7 +371,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
                   >
                     <ColorPicker
                       color={colors.eye1Color}
-                      onColorChange={handleChangeColor('eye1Color')}
+                      onColorChange={handleChangeEye1Color}
                       classes={{ root: classes.gradientPicker }}
                     />
                     <Button
@@ -385,7 +385,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
                     </Button>
                     <ColorPicker
                       color={colors.eyeBall1Color}
-                      onColorChange={handleChangeColor('eyeBall1Color')}
+                      onColorChange={handleChangeEyeBall1Color}
                       classes={{ root: classes.gradientPicker }}
                     />
                   </Flex>
