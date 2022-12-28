@@ -10,6 +10,7 @@ import spritesheet from '@shared/images/spritesheet.png';
 export interface EyeFrameShapeProps extends WithStyles<typeof styles> {
   checked: boolean;
   type: EyeFrameShapeType;
+  disabled?: boolean;
   onChange: (type: EyeFrameShapeType) => void;
 }
 
@@ -31,10 +32,15 @@ export enum EyeFrameShapeType {
   Frame16 = 'frame16',
 }
 
-const EyeFrameShapeComponent: React.FC<EyeFrameShapeProps> = ({ classes, checked, onChange, type }) => {
-  return <div className={cx(classes.root, {[classes.rootChecked]: checked})} onClick={() => onChange(type)} >
-    <div className={cx(classes.body, classes[type] )}  style={{ backgroundImage: `url(${spritesheet})` }}></div>
-  </div>
-}
+const EyeFrameShapeComponent: React.FC<EyeFrameShapeProps> = ({ classes, checked, disabled, onChange, type }) => {
+  return (
+    <div
+      className={cx(classes.root, { [classes.rootChecked]: checked }, { [classes.rootDisabled]: disabled })}
+      onClick={!disabled ? () => onChange(type) : undefined}
+    >
+      <div className={cx(classes.body, classes[type])} style={{ backgroundImage: `url(${spritesheet})` }}></div>
+    </div>
+  );
+};
 
 export const EyeFrameShape = withStyles(styles)(EyeFrameShapeComponent);

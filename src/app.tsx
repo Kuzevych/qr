@@ -65,7 +65,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
   const [eye, setEye] = React.useState(EyeFrameShapeType.Frame0);
 
   //Eye Ball Shape
-  const [eyeBall, setEyeBall] = React.useState(EyeBallShapeType.Ball0);
+  const [eyeBall, setEyeBall] = React.useState<EyeBallShapeType | undefined>(undefined);
 
   const [logo, setLogo] = React.useState<LogoType | string>('');
 
@@ -138,7 +138,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
           config: {
             body: body,
             eye: eye,
-            eyeBall: eyeBall,
+            eyeBall: eyeBall || '',
             bgColor: colors.bgColor,
             gradientType: gradientType,
             eye1Color: colors.eye1Color,
