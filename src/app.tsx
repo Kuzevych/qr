@@ -3,6 +3,7 @@ import { Button, Card, Collapse, Typography } from '@material-ui/core';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import cx from 'classnames';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
 
 import { withStyles, WithStyles } from '@core/theme/utils/with-styles';
 import { defaultColors } from '@core/theme/constants/colors';
@@ -48,11 +49,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
   const [colors, setColors] = React.useState({
     bgColor: defaultColors.white,
     eye1Color: defaultColors.black,
-    eye2Color: defaultColors.black,
-    eye3Color: defaultColors.black,
     eyeBall1Color: defaultColors.black,
-    eyeBall2Color: defaultColors.black,
-    eyeBall3Color: defaultColors.black,
     bodyColor: defaultColors.black,
     gradientColor1: defaultColors.black,
     gradientColor2: '#0277BD',
@@ -75,6 +72,8 @@ const App: React.FC<AppProps> = ({ classes }) => {
   const [downloadingFile, setDownloadingFile] = React.useState(false);
 
   const [logoMode, setLogoMode] = React.useState<string>('default');
+
+  const [openedAccordion, setOpenedAccordion] = React.useState<AccordionType | undefined>(undefined);
 
   React.useEffect(() => {
     if (initialRef.current) {
@@ -143,11 +142,11 @@ const App: React.FC<AppProps> = ({ classes }) => {
             bgColor: colors.bgColor,
             gradientType: gradientType,
             eye1Color: colors.eye1Color,
-            eye2Color: colors.eye2Color,
-            eye3Color: colors.eye3Color,
+            eye2Color: colors.eye1Color,
+            eye3Color: colors.eye1Color,
             eyeBall1Color: colors.eyeBall1Color,
-            eyeBall2Color: colors.eyeBall2Color,
-            eyeBall3Color: colors.eyeBall3Color,
+            eyeBall2Color: colors.eyeBall1Color,
+            eyeBall3Color: colors.eyeBall1Color,
             gradientOnEyes: customEyeColor,
             logo: logo ? logo : '',
             logoMode: logoMode,
@@ -184,8 +183,6 @@ const App: React.FC<AppProps> = ({ classes }) => {
       setColors({
         ...colors,
         eye1Color: color,
-        eye2Color: color,
-        eye3Color: color,
       });
       return;
     }
@@ -194,8 +191,6 @@ const App: React.FC<AppProps> = ({ classes }) => {
       setColors({
         ...colors,
         eyeBall1Color: color,
-        eyeBall2Color: color,
-        eyeBall3Color: color,
       });
       return;
     }
@@ -225,10 +220,13 @@ const App: React.FC<AppProps> = ({ classes }) => {
   };
 
   const handleSyncGradientColor = () => {
+    let gradient1 = colors.gradientColor1;
+    let gradient2 = colors.gradientColor2;
+
     setColors({
       ...colors,
-      gradientColor1: colors.gradientColor2,
-      gradientColor2: colors.gradientColor1,
+      gradientColor1: gradient2,
+      gradientColor2: gradient1,
     });
   };
 
@@ -243,41 +241,40 @@ const App: React.FC<AppProps> = ({ classes }) => {
       setColors({
         ...colors,
         eye1Color: defaultColors.black,
-        eye2Color: defaultColors.black,
-        eye3Color: defaultColors.black,
         eyeBall1Color: defaultColors.black,
-        eyeBall2Color: defaultColors.black,
-        eyeBall3Color: defaultColors.black,
       });
     }
   };
 
   const handleSwapEyeColor = () => {
     let eye = colors.eye1Color;
-    let balEte = colors.eyeBall1Color;
+    let balEye = colors.eyeBall1Color;
+
     setColors({
       ...colors,
-      eye1Color: balEte,
-      eye2Color: balEte,
-      eye3Color: balEte,
+      eye1Color: balEye,
       eyeBall1Color: eye,
-      eyeBall2Color: eye,
-      eyeBall3Color: eye,
     });
   };
 
   const handleCopyEyeForeground = () => {
     if (colorRadio === 'single') {
+      let bodyColor = colors.bodyColor;
       setColors({
         ...colors,
-        eye1Color: colors.bodyColor,
-        eyeBall1Color: colors.bodyColor,
+        eye1Color: bodyColor,
+        eyeBall1Color: bodyColor,
       });
-    } else {
+    }
+
+    if (colorRadio === 'gradient') {
+      let gradient1 = colors.gradientColor1;
+      let gradient2 = colors.gradientColor2;
+
       setColors({
         ...colors,
-        eye1Color: colors.gradientColor1,
-        eyeBall1Color: colors.gradientColor2,
+        eye1Color: gradient1,
+        eyeBall1Color: gradient2,
       });
     }
   };
@@ -286,12 +283,27 @@ const App: React.FC<AppProps> = ({ classes }) => {
     getQrCode(true, format);
   };
 
+  const handleChangeAccordion = (type: AccordionType) => {
+    if (openedAccordion === type) {
+      setOpenedAccordion(undefined);
+
+      return;
+    }
+
+    setOpenedAccordion(type);
+  };
+
   return (
     <Typography component="div" className={classes.root}>
       <Card classes={{ root: classes.card }}>
         <div className={classes.actionsSection} ref={urlFieldRef}>
           <UrlForm error={urlError} url={url} onUrlChange={handleUrlChange} />
-          <Accordion type={AccordionType.Options} classes={{ root: classes.accordion }}>
+          <Accordion
+            type={AccordionType.Options}
+            open={openedAccordion == AccordionType.Options}
+            onChange={handleChangeAccordion}
+            classes={{ root: classes.accordion }}
+          >
             <Flex direction="column">
               <span className={classes.heading}>Color</span>
               <span className={classes.subHeading}>Foreground Color</span>
@@ -314,7 +326,12 @@ const App: React.FC<AppProps> = ({ classes }) => {
               )}
               {colorRadio === 'gradient' && (
                 <Flex classes={{ root: classes.gradientContainer }} direction="column">
-                  <Flex alignItems="center" wrap="nowrap" justifyContent="space-between">
+                  <Flex
+                    alignItems="center"
+                    wrap="nowrap"
+                    justifyContent="space-between"
+                    classes={{ root: classes.gradientWrapper }}
+                  >
                     <ColorPicker
                       color={colors.gradientColor1}
                       onColorChange={handleChangeColor('gradientColor1')}
@@ -322,11 +339,12 @@ const App: React.FC<AppProps> = ({ classes }) => {
                     />
                     <Button
                       variant="outlined"
-                      color="primary"
+                      color="default"
                       onClick={handleSyncGradientColor}
                       classes={{ root: classes.syncButton }}
                     >
-                      <SyncAltIcon />
+                      <SyncAltIcon classes={{ root: classes.horizontalSyncIcon }} />
+                      <ImportExportIcon classes={{ root: classes.verticalSyncIcon }} />
                     </Button>
                     <ColorPicker
                       color={colors.gradientColor2}
@@ -345,7 +363,12 @@ const App: React.FC<AppProps> = ({ classes }) => {
               <Collapse in={customEyeColor} classes={{ wrapper: classes.customEyeWrapper }}>
                 <div className={classes.eyeContainer}>
                   <span className={classes.subHeading}>Eye Color</span>
-                  <Flex alignItems="center" wrap="nowrap" justifyContent="space-between">
+                  <Flex
+                    alignItems="center"
+                    wrap="nowrap"
+                    justifyContent="space-between"
+                    classes={{ root: classes.gradientWrapper }}
+                  >
                     <ColorPicker
                       color={colors.eye1Color}
                       onColorChange={handleChangeColor('eye1Color')}
@@ -353,11 +376,12 @@ const App: React.FC<AppProps> = ({ classes }) => {
                     />
                     <Button
                       variant="outlined"
-                      color="primary"
+                      color="default"
                       onClick={handleSwapEyeColor}
                       classes={{ root: classes.syncButton }}
                     >
-                      <SyncAltIcon />
+                      <SyncAltIcon classes={{ root: classes.horizontalSyncIcon }} />
+                      <ImportExportIcon classes={{ root: classes.verticalSyncIcon }} />
                     </Button>
                     <ColorPicker
                       color={colors.eyeBall1Color}
@@ -367,7 +391,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
                   </Flex>
                   <Button
                     variant="outlined"
-                    color="primary"
+                    color="default"
                     onClick={handleCopyEyeForeground}
                     classes={{ root: classes.eyeContainerSyncButton }}
                   >
@@ -383,7 +407,12 @@ const App: React.FC<AppProps> = ({ classes }) => {
               />
             </Flex>
           </Accordion>
-          <Accordion type={AccordionType.Customise} classes={{ root: classes.accordion }}>
+          <Accordion
+            type={AccordionType.Customise}
+            open={openedAccordion == AccordionType.Customise}
+            onChange={handleChangeAccordion}
+            classes={{ root: classes.accordion }}
+          >
             <ShapeForm
               classes={{ subHeading: classes.subHeading }}
               body={body}
@@ -394,7 +423,12 @@ const App: React.FC<AppProps> = ({ classes }) => {
               onEyeBallChange={setEyeBall}
             />
           </Accordion>
-          <Accordion type={AccordionType.Logos} classes={{ root: classes.accordion }}>
+          <Accordion
+            type={AccordionType.Logos}
+            open={openedAccordion == AccordionType.Logos}
+            onChange={handleChangeAccordion}
+            classes={{ root: classes.accordion }}
+          >
             <LogoCustomize logo={logo} onLogoChange={setLogo} logoMode={logoMode} onLogoModeChange={setLogoMode} />
           </Accordion>
         </div>

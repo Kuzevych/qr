@@ -10,7 +10,7 @@ export const styles = ({ breakpoints }: Theme) => {
     card: {
       maxWidth: 1140,
       margin: 'auto',
-      backgroundColor: '#f3f7fa',
+      backgroundColor: colors.neutral.lightGrey,
       height: '100%',
       border: `1px solid ${colors.border}`,
       display: 'flex',
@@ -46,6 +46,7 @@ export const styles = ({ breakpoints }: Theme) => {
     },
     qrCodeImage: {
       width: '100%',
+      borderRadius: 4,
     },
     heading: {
       fontSize: 28,
@@ -68,6 +69,7 @@ export const styles = ({ breakpoints }: Theme) => {
     gradientContainer: {
       marginBottom: 20,
     },
+    gradientWrapper: {},
     gradientPicker: {
       marginTop: 10,
       flex: '1 1 auto',
@@ -77,6 +79,8 @@ export const styles = ({ breakpoints }: Theme) => {
       borderRadius: 0,
       flex: '0 1 auto',
     },
+    horizontalSyncIcon: { display: 'block' },
+    verticalSyncIcon: { display: 'none' },
     bodyPicker: {
       marginBottom: 20,
     },
@@ -104,6 +108,7 @@ export const styles = ({ breakpoints }: Theme) => {
     },
     downloadBtnLabel: {
       fontSize: 12,
+      color: colors.white,
     },
     [breakpoints.down('sm')]: {
       root: {
@@ -112,11 +117,41 @@ export const styles = ({ breakpoints }: Theme) => {
       actionsSection: {
         padding: 20,
       },
+      gradientWrapper: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+      },
+      gradientPicker: { width: '100% !important' },
+      syncButton: { marginRight: 0, marginLeft: 0 },
+      horizontalSyncIcon: { display: 'none' },
+      verticalSyncIcon: { display: 'block' },
+      customEyeCheckbox: { marginLeft: 0 },
     },
     [breakpoints.down('xs')]: {
-      card: {},
-      actionsSection: {},
-      codeSection: {},
+      root: { padding: 4 },
+      card: {
+        flexDirection: 'column',
+        overflow: 'auto',
+      },
+      actionsSection: {
+        width: '100%',
+        padding: 10,
+        overflow: 'visible',
+      },
+      codeSection: {
+        width: '100%',
+        padding: 10,
+        backgroundColor: colors.neutral.lightGrey,
+      },
+      qrCode: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      qrCodeImage: {
+        maxHeight: '100%',
+        width: 'auto',
+      },
     },
   });
 };

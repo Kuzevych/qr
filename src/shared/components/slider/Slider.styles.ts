@@ -1,7 +1,7 @@
 import { createStyles } from '@core/theme/utils/create-styles';
 import { colors } from '@core/theme/constants/colors';
-
-export const styles = () =>
+import { Theme } from '@core/theme/types/main';
+export const styles = ({ breakpoints }: Theme) =>
   createStyles({
     index: {
       width: '100%',
@@ -55,5 +55,10 @@ export const styles = () =>
       flexGrow: 0,
       fontSize: 12,
       textAlign: 'right',
+    },
+    [breakpoints.down('xs')]: {
+      index: {
+        padding: '0 6px',
+      },
     },
   });
