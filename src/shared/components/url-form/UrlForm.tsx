@@ -3,6 +3,7 @@ import Switch from 'react-switch';
 import Button from '@material-ui/core/Button';
 
 import { WithStyles, withStyles } from '@core/theme/utils/with-styles';
+// import { getExternalHTTPClient } from '@core/http-client';
 import { Flex } from '@shared/components/flex';
 import { TextField } from '@shared/components/text-field';
 import { colors } from '@core/theme/constants/colors';
@@ -18,6 +19,8 @@ export interface UrlFormProps extends WithStyles<typeof styles> {
   onUrlChange: (url: string) => void;
   error: boolean;
 }
+
+// const $http = getExternalHTTPClient();
 
 const UrlFormComponent: React.FC<UrlFormProps> = ({ classes, onUrlChange, url, error }) => {
   const [localUrl, setLocalUrl] = React.useState('https://');
@@ -37,6 +40,9 @@ const UrlFormComponent: React.FC<UrlFormProps> = ({ classes, onUrlChange, url, e
 
       return;
     }
+
+    // $http.post(`links`, { url: localUrl });
+
     if (localUrl.startsWith('http')) {
       onUrlChange(localUrl);
     } else {

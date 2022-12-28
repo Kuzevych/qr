@@ -20,7 +20,7 @@ export const styles = ({ spacing, breakpoints }: Theme) => {
       padding: 0,
     },
     title: {
-      padding: spacing(5, 4, 4),
+      padding: spacing(3),
     },
     heading: {
       fontSize: 20,
