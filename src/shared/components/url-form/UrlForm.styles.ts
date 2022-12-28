@@ -25,4 +25,27 @@ export const styles = () =>
       marginTop: 20,
       marginBottom: 20,
     },
+    switch: {
+      marginTop: 10,
+    },
+    switchLabel: {
+      fontSize: 13,
+      color: '#869ab8',
+      marginLeft: 8,
+    },
+    dialog: {
+      padding: 15,
+    },
+    dialogImage: {
+      width: '100%',
+    },
+    dialogLabel: {
+      color: colors.primary.darkBlue,
+      textAlign: 'center',
+      padding: 16,
+      marginTop: 15,
+    },
+    signUpBtn: {
+      width: 190,
+    },
   });
