@@ -72,7 +72,12 @@ const UrlFormComponent: React.FC<UrlFormProps> = ({ classes, onUrlChange, url, e
       />
       <span className={classes.addLabel}>Your QR code will open this URL.</span>
       <Flex alignItems="center" classes={{ root: classes.switch }}>
-        <Switch checked={false} onChange={handleSwitch} onColor={colors.primary.green} />
+        <Switch
+          checked={false}
+          activeBoxShadow="rgb(88 184 150) 0px 0px 2px 3px"
+          onChange={handleSwitch}
+          onColor={colors.primary.green}
+        />
         <span className={classes.switchLabel}>Statistics and Editability</span>
       </Flex>
       <div className={classes.line} />
