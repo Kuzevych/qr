@@ -18,9 +18,9 @@ export const downloadBase64 = (image: string, type: 'png' | 'svg') => {
   }
 
   if (type == 'svg') {
-    a.href = `data:image/${type}+xml;base64,${image}`;
+    a.href = `data:image/${type};base64,${image}`;
   }
-  a.download = `qr-code.${type}`;
+  a.download = `qr-code`;
   a.click();
 };
 
