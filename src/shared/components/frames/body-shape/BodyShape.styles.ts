@@ -19,6 +19,7 @@ export const styles = () =>
     rootDisabled: {
       cursor: 'default',
       pointerEvents: 'none',
+      position: 'relative',
     },
     body: {
       width: 90,
@@ -48,4 +49,11 @@ export const styles = () =>
     [BodyType.RoundedPointed]: { backgroundPosition: '-585px -365px' },
     [BodyType.Star]: { backgroundPosition: '-5px -545px' },
     [BodyType.Diamond]: { backgroundPosition: '-5px -215px' },
+    disabledLine: {
+      height: 6,
+      width: '100%',
+      position: 'absolute',
+      backgroundColor: colors.primary.green,
+      top: '45%',
+    },
   });

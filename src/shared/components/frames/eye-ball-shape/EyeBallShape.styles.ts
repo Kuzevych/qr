@@ -40,4 +40,11 @@ export const styles = () =>
     [EyeBallShapeType.Ball17]: { backgroundPosition: '-5px -65px' },
     [EyeBallShapeType.Ball18]: { backgroundPosition: '-65px -65px' },
     [EyeBallShapeType.Ball19]: { backgroundPosition: '-125px -65px' },
+    disabledLine: {
+      height: 5,
+      width: '100%',
+      position: 'absolute',
+      backgroundColor: colors.primary.green,
+      top: '45%',
+    },
   });

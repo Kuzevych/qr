@@ -19,6 +19,7 @@ export const styles = () =>
     rootDisabled: {
       cursor: 'default',
       pointerEvents: 'none',
+      position: 'relative',
     },
     body: {
       width: 50,
@@ -41,4 +42,11 @@ export const styles = () =>
     [EyeFrameShapeType.Frame13]: { backgroundPosition: '-5px -305px' },
     [EyeFrameShapeType.Frame14]: { backgroundPosition: '-65px -305px' },
     [EyeFrameShapeType.Frame16]: { backgroundPosition: '-185px -305px' },
+    disabledLine: {
+      height: 5,
+      width: '100%',
+      position: 'absolute',
+      backgroundColor: colors.primary.green,
+      top: '45%',
+    },
   });

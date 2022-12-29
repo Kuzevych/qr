@@ -45,7 +45,9 @@ const BodyShapeComponent: React.FC<SpriteSheetProp> = ({ classes, type, checked,
       className={cx(classes.root, { [classes.rootChecked]: checked }, { [classes.rootDisabled]: !!disabled })}
       onClick={!disabled ? () => onChange(type) : undefined}
     >
-      <div className={cx(classes.body, classes[type])} style={{ backgroundImage: `url(${spritesheet})` }}></div>
+      <div className={cx(classes.body, classes[type])} style={{ backgroundImage: `url(${spritesheet})` }}>
+        {disabled && <div className={classes.disabledLine} />}
+      </div>
     </div>
   );
 };

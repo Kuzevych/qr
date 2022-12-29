@@ -40,10 +40,9 @@ const EyeBallShapeComponent: React.FC<EyeBallShapeProps> = ({ classes, checked, 
       className={cx(classes.root, { [classes.rootChecked]: checked })}
       // onClick={type ? () => onChange(type) : undefined}
     >
-      <div
-        className={cx(classes.body, type ? classes[type] : '')}
-        style={{ backgroundImage: `url(${spritesheet})` }}
-      ></div>
+      <div className={cx(classes.body, type ? classes[type] : '')} style={{ backgroundImage: `url(${spritesheet})` }}>
+        <div className={classes.disabledLine} />
+      </div>
     </div>
   );
 };
