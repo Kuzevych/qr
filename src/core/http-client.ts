@@ -46,4 +46,15 @@ export const getHTTPClient = (): AxiosInstance => {
   return instance;
 };
 
+export const getExternalHTTPClient = (): AxiosInstance => {
+  const instance = Axios.create();
+  instance.defaults.baseURL = 'https://app.bl.ink/api/v4';
+
+  instance.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer PH9umV05t8E07e7OXG0ASk09AmWr490h5xWvqmyXMkNRu3tRHT4Al73gLiLZvUCC`;
+    return config;
+  });
+  return instance;
+};
+
 export const getCancelRequestSource = (): CancelTokenSource => Axios.CancelToken.source();

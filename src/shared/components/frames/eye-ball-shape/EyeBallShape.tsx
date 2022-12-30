@@ -9,7 +9,7 @@ import spritesheet from '@shared/images/spritesheet.png';
 
 export interface EyeBallShapeProps extends WithStyles<typeof styles> {
   checked: boolean;
-  type: EyeBallShapeType;
+  type?: EyeBallShapeType;
   onChange: (type: EyeBallShapeType) => void;
 }
 
@@ -34,10 +34,17 @@ export enum EyeBallShapeType {
   Ball19 = 'ball19',
 }
 
-const EyeBallShapeComponent: React.FC<EyeBallShapeProps> = ({ classes, checked, onChange, type }) => {
-  return <div className={cx(classes.root, {[classes.rootChecked]: checked})} onClick={() => onChange(type)} >
-    <div className={cx(classes.body, classes[type] )}  style={{ backgroundImage: `url(${spritesheet})` }}></div>
-  </div>
-}
+const EyeBallShapeComponent: React.FC<EyeBallShapeProps> = ({ classes, checked, type }) => {
+  return (
+    <div
+      className={cx(classes.root, { [classes.rootChecked]: checked })}
+      // onClick={type ? () => onChange(type) : undefined}
+    >
+      <div className={cx(classes.body, type ? classes[type] : '')} style={{ backgroundImage: `url(${spritesheet})` }}>
+        <div className={classes.disabledLine} />
+      </div>
+    </div>
+  );
+};
 
 export const EyeBallShape = withStyles(styles)(EyeBallShapeComponent);

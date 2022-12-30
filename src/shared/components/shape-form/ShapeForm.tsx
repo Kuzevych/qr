@@ -8,13 +8,15 @@ import { EyeFrameShape, EyeFrameShapeType } from '@shared/components/frames/eye-
 import { EyeBallShape, EyeBallShapeType } from '@shared/components/frames/eye-ball-shape';
 
 import { styles } from './ShapeForm.styles';
+import { bodyTypeOptions } from '@shared/components/frames/body-shape/BodyShape.constants';
+import { eyeFrameShapeOptions } from '@shared/components/frames/eye-frame-shape/EyeFrameShape.constants';
 
 export interface ShapeFormProps extends WithStyles<typeof styles> {
   body: BodyType;
   onBodyChange: (type: BodyType) => void;
   eye: EyeFrameShapeType;
   onEyeChange: (type: EyeFrameShapeType) => void;
-  eyeBall: EyeBallShapeType;
+  eyeBall?: EyeBallShapeType;
   onEyeBallChange: (type: EyeBallShapeType) => void;
 }
 
@@ -28,19 +30,14 @@ const ShapeFormComponent: React.FC<ShapeFormProps> = ({
   onEyeBallChange,
 }) => {
   const renderBodyShapes = React.useMemo(() => {
-    return (Object.keys(BodyType) as (keyof typeof BodyType)[]).map((el, idx) => (
-      <BodyShape type={BodyType[el]} checked={body == BodyType[el]} onChange={onBodyChange} key={idx} />
+    return bodyTypeOptions.map((el, idx) => (
+      <BodyShape disabled={el?.disabled} type={el.type} checked={body == el.type} onChange={onBodyChange} key={idx} />
     ));
   }, [body, onBodyChange]);
 
   const renderEyeFrameShapes = React.useMemo(() => {
-    return (Object.keys(EyeFrameShapeType) as (keyof typeof EyeFrameShapeType)[]).map((el, idx) => (
-      <EyeFrameShape
-        type={EyeFrameShapeType[el]}
-        checked={eye == EyeFrameShapeType[el]}
-        onChange={onEyeChange}
-        key={idx}
-      />
+    return eyeFrameShapeOptions.map((el, idx) => (
+      <EyeFrameShape disabled={el?.disabled} type={el.type} checked={eye == el.type} onChange={onEyeChange} key={idx} />
     ));
   }, [eye, onEyeChange]);
 

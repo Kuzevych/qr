@@ -1,7 +1,7 @@
 import { colors } from '@core/theme/constants/colors';
 import { createStyles } from '@core/theme/utils/create-styles';
-
-export function styles() {
+import { Theme } from '@core/theme/types/main';
+export const styles = ({ breakpoints }: Theme) => {
   return createStyles({
     root: {
       height: '100%',
@@ -10,7 +10,7 @@ export function styles() {
     card: {
       maxWidth: 1140,
       margin: 'auto',
-      backgroundColor: '#f3f7fa',
+      backgroundColor: colors.neutral.lightGrey,
       height: '100%',
       border: `1px solid ${colors.border}`,
       display: 'flex',
@@ -33,6 +33,7 @@ export function styles() {
     },
     codeSection: {
       width: '30%',
+      minWidth: 300,
       padding: 20,
       borderTopRightRadius: 4,
       borderBottomRightRadius: 4,
@@ -45,10 +46,11 @@ export function styles() {
     },
     qrCodeImage: {
       width: '100%',
+      borderRadius: 4,
     },
     heading: {
       fontSize: 28,
-      color: '#2a354f',
+      color: colors.primary.main,
       fontWeight: 500,
       marginBottom: 32,
     },
@@ -67,6 +69,7 @@ export function styles() {
     gradientContainer: {
       marginBottom: 20,
     },
+    gradientWrapper: {},
     gradientPicker: {
       marginTop: 10,
       flex: '1 1 auto',
@@ -76,6 +79,8 @@ export function styles() {
       borderRadius: 0,
       flex: '0 1 auto',
     },
+    horizontalSyncIcon: { display: 'block' },
+    verticalSyncIcon: { display: 'none' },
     bodyPicker: {
       marginBottom: 20,
     },
@@ -83,9 +88,7 @@ export function styles() {
       maxWidth: '100%',
       marginTop: 10,
     },
-    eyeContainer: {
-      transition: 'all .3s',
-    },
+    eyeContainer: {},
     customEyeWrapper: {
       marginBottom: 16,
     },
@@ -93,5 +96,60 @@ export function styles() {
       borderRadius: 0,
       marginTop: 10,
     },
+    downloadBtn: {
+      height: 52,
+      flex: '1 1 auto',
+      marginTop: 10,
+    },
+    downloadBtnPng: {
+      marginRight: 12,
+    },
+    downloadBtnLabel: {
+      fontSize: 12,
+      color: colors.white,
+    },
+    [breakpoints.down('sm')]: {
+      root: {
+        padding: 15,
+      },
+      actionsSection: {
+        padding: 20,
+      },
+      gradientWrapper: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+      },
+      gradientPicker: { width: '100% !important' },
+      syncButton: { marginRight: 0, marginLeft: 0 },
+      horizontalSyncIcon: { display: 'none' },
+      verticalSyncIcon: { display: 'block' },
+      customEyeCheckbox: { marginLeft: 0 },
+    },
+    [breakpoints.down('xs')]: {
+      root: { padding: 4 },
+      card: {
+        flexDirection: 'column',
+        overflow: 'auto',
+      },
+      actionsSection: {
+        width: '100%',
+        padding: 10,
+        overflow: 'visible',
+      },
+      codeSection: {
+        width: '100%',
+        padding: 10,
+        backgroundColor: colors.neutral.lightGrey,
+      },
+      qrCode: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      qrCodeImage: {
+        maxHeight: '100%',
+        width: 'auto',
+      },
+    },
   });
-}
+};

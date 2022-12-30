@@ -33,7 +33,7 @@ export function styles({ spacing }: Theme) {
       margin: spacing(6),
     },
     svg: {
-      color: colors.green,
+      color: colors.primary.green,
     },
   });
 }

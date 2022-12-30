@@ -1,5 +1,6 @@
 import { Theme } from '@core/theme/types/main';
 import { createStyles } from '@core/theme/utils/create-styles';
+import { colors } from "@core/theme/constants/colors";
 
 export const styles = ({ shape }: Theme) =>
   createStyles({
@@ -16,42 +17,42 @@ export const styles = ({ shape }: Theme) =>
 
       '&:hover': {
         '& $headerIcon': {
-          color: '#11ab7c',
+          color: colors.primary.green,
         },
 
         '& $headerText': {
-          color: '#11ab7c',
+          color: colors.primary.green,
         },
 
         '& $headerOpenIcon': {
-          color: '#11ab7c',
+          color: colors.primary.green,
         },
       },
     },
     headingContainer: {},
     headingContainerOpened: {
       '& $headerIcon': {
-        color: '#11ab7c',
+        color: colors.primary.green,
       },
 
       '& $headerText': {
-        color: '#11ab7c',
+        color: colors.primary.green,
       },
 
       '& $headerOpenIconOpened': {
-        color: '#11ab7c',
+        color: colors.primary.green,
       },
     },
     headerIcon: {
-      color: '#2a354f',
+      color: colors.primary.main,
       marginRight: 16,
     },
     headerText: {
       fontSize: 16,
-      color: '#2a354f',
+      color: colors.primary.main,
     },
     headerOpenIcon: {
-      color: '#2a354f',
+      color: colors.primary.main,
       transition: 'all .2s ease',
     },
     headerOpenIconOpened: {

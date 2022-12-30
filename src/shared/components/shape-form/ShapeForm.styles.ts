@@ -1,11 +1,12 @@
 import { createStyles } from '@core/theme/utils/create-styles';
+import { colors } from "@core/theme/constants/colors";
 
 export const styles = () =>
   createStyles({
     root: {},
     heading: {
       fontSize: 28,
-      color: '#2a354f',
+      color: colors.primary.main,
       fontWeight: 500,
       marginBottom: 32,
     },

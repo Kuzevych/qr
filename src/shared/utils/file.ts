@@ -1,12 +1,26 @@
 import uniq from 'lodash/uniq';
 
-export const downloadFile = (part: BlobPart, filename: string, type = 'application/png') => {
+export const downloadFile = (part: BlobPart, filename: string, type = 'image/png') => {
   const file = new Blob([part], { type });
 
   let url = window.URL.createObjectURL(file);
   let a = document.createElement('a');
   a.href = url;
   a.download = filename;
+  a.click();
+};
+
+export const downloadBase64 = (image: string, type: 'png' | 'svg') => {
+  let a = document.createElement('a');
+
+  if (type == 'png') {
+    a.href = `data:image/${type};base64,${image}`;
+  }
+
+  if (type == 'svg') {
+    a.href = `data:image/${type};base64,${image}`;
+  }
+  a.download = `qr-code`;
   a.click();
 };
 
@@ -59,4 +73,12 @@ export const parseBytes = (bytes: number, decimals = 2): { amount: number; unit:
     amount: parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)),
     unit: units[i] as string,
   };
+};
+
+export const createFormDataName = (file: File) => {
+  const formData = new FormData();
+
+  formData.append(file.name, file);
+
+  return formData;
 };

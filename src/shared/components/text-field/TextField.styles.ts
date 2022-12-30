@@ -40,7 +40,7 @@ export const styles = ({ spacing }: Theme) => {
     },
     label: {},
     errorText: {
-      color: 'red',
+      color: colors.secondary.red,
       fontSize: 13,
     },
   });

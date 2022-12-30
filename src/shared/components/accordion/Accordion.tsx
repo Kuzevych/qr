@@ -13,6 +13,8 @@ import { styles } from './Accoriod.styles';
 
 export interface AccordionProps extends WithStyles<typeof styles> {
   type: AccordionType;
+  open: boolean;
+  onChange: (type: AccordionType) => void;
 }
 
 export enum AccordionType {
@@ -21,9 +23,7 @@ export enum AccordionType {
   Logos = 'Logos',
 }
 
-const AccordionComponent: React.FC<AccordionProps> = ({ classes, type, children }) => {
-  const [open, setOpen] = React.useState(false);
-
+const AccordionComponent: React.FC<AccordionProps> = ({ classes, type, open, onChange, children }) => {
   const accordionType = React.useMemo(() => {
     const config = {
       [AccordionType.Options]: {
@@ -49,7 +49,7 @@ const AccordionComponent: React.FC<AccordionProps> = ({ classes, type, children 
         justifyContent="space-between"
         alignItems="center"
         className={classes.heading}
-        onClick={() => setOpen(!open)}
+        onClick={() => onChange(type)}
       >
         <Flex className={cx(classes.headingContainer, { [classes.headingContainerOpened]: open })}>
           {accordionType.icon}
