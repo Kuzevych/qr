@@ -88,9 +88,7 @@ export const styles = ({ breakpoints }: Theme) => {
       maxWidth: '100%',
       marginTop: 10,
     },
-    eyeContainer: {
-      transition: 'all .3s',
-    },
+    eyeContainer: {},
     customEyeWrapper: {
       marginBottom: 16,
     },

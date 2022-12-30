@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Collapse, Typography } from '@material-ui/core';
+import { Button, Card, Typography } from '@material-ui/core';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import cx from 'classnames';
 import GetAppIcon from '@material-ui/icons/GetApp';
@@ -200,6 +200,8 @@ const App: React.FC<AppProps> = ({ classes }) => {
   };
 
   const handleRadioColorChange = (type: string) => {
+    setColorRadio(type);
+
     if (type === 'gradient') {
       setColors({
         ...colors,
@@ -213,8 +215,6 @@ const App: React.FC<AppProps> = ({ classes }) => {
         bodyColor: colors.gradientColor1,
       });
     }
-
-    setColorRadio(type);
   };
 
   const handleSyncGradientColor = () => {
@@ -245,8 +245,8 @@ const App: React.FC<AppProps> = ({ classes }) => {
   };
 
   const handleSwapEyeColor = () => {
-    let eye = colors.eye1Color;
-    let balEye = colors.eyeBall1Color;
+    const eye = colors.eye1Color;
+    const balEye = colors.eyeBall1Color;
 
     setColors({
       ...colors,
@@ -258,6 +258,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
   const handleCopyEyeForeground = () => {
     if (colorRadio === 'single') {
       let bodyColor = colors.bodyColor;
+
       setColors({
         ...colors,
         eye1Color: bodyColor,
@@ -360,7 +361,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
                   />
                 </Flex>
               )}
-              <Collapse in={customEyeColor} classes={{ wrapper: classes.customEyeWrapper }}>
+              {customEyeColor && (
                 <div className={classes.eyeContainer}>
                   <span className={classes.subHeading}>Eye Color</span>
                   <Flex
@@ -398,7 +399,7 @@ const App: React.FC<AppProps> = ({ classes }) => {
                     Copy Foreground
                   </Button>
                 </div>
-              </Collapse>
+              )}
               <span className={classes.subHeading}>Background Color</span>
               <ColorPicker
                 color={colors.bgColor}
